@@ -8,6 +8,12 @@
 import UIKit
 import CoreData
 
+
+let kEntityStr = "Tasks"
+let kTitleStr = "title"
+let kSubtitleStr = "subtitle"
+let kDescStr = "desc"
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
