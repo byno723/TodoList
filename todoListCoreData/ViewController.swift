@@ -42,7 +42,7 @@ class ViewController: UIViewController,  UITableViewDelegate, UITableViewDataSou
                            let results:NSArray = try context.fetch(request) as NSArray
                            for result in results
                            {
-                               let note = result as ! Task
+                               let note = result as! Task
                                taskList.append(note)
                            }
                        }
@@ -64,7 +64,8 @@ class ViewController: UIViewController,  UITableViewDelegate, UITableViewDataSou
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListTableViewCell",for: indexPath) as! ListTableViewCell
            
 //               // set the text from the data model
-        cell.lblTitle?.text = self.title
+        cell.lblTitle?.text = taskList[indexPath.row].title
+        cell.lblSubtitle.text = taskList[indexPath.row].desc
         
         return cell
     }
