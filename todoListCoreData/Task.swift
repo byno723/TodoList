@@ -7,12 +7,9 @@
 
 import Foundation
 
-import CoreData
-
-@objc(Task)
-class Task: NSManagedObject
-{
-    @NSManaged var title: String!
-    @NSManaged var subtitle: String!
-    @NSManaged var desc: String!
+struct task: Codable{
+    var title:String
+    var subtitle:String
+    var task:String
 }
+

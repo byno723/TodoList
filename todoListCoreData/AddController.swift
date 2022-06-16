@@ -12,79 +12,84 @@ import CoreData
 
 class AddController :UIViewController{
 
-    var selectedTask: Task? = nil
-    
-   
     
     @IBOutlet weak var txtTitle: UITextField!
     
     @IBOutlet weak var txtSubtitle: UITextField!
     @IBOutlet weak var txtDescription: UITextView!
     
+    var dataList:[task] = []
+    
+    var userDefaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if(selectedTask != nil)
-                {
-                    txtTitle.text = selectedTask?.title
-                    txtSubtitle.text = selectedTask?.subtitle
-                    txtDescription.text = selectedTask?.desc
-                }
+     
     }
     
     @IBAction func btnAdd(_ sender: Any) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
-                if(selectedTask == nil)
-                {
-                    let entity = NSEntityDescription.entity(forEntityName: "Tasks", in: context)
-                    let newNote = Task(entity: entity!, insertInto: context)
-//                    newNote.id = noteList.count as NSNumber
-                    newNote.title = txtTitle.text
-                    newNote.subtitle = txtSubtitle.text
-                    newNote.desc = txtDescription.text
-                    do
-                    {
-                        try context.save()
-//                        noteList.append(newNote)
-                        navigationController?.popViewController(animated: true)
-                    }
-                    catch
-                    {
-                        print("context save error")
-                    }
-                }
-                else //edit
-                {
-                    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
-                    do {
-                        let results:NSArray = try context.fetch(request) as NSArray
-                        for result in results
-                        {
-                            let note = result as! Task
-                            if(note == selectedTask)
-                            {
-                                note.title = txtTitle.text
-                                note.subtitle = txtSubtitle.text
-                                note.desc = txtDescription.text
-                                try context.save()
-                                navigationController?.popViewController(animated: true)
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        print("Fetch Failed")
-                    }
-                }
-        
-    }
+       
+        let titleTxt = txtTitle.text ?? ""
+              let subtitleTxt = txtSubtitle.text ?? ""
+              let taskTxt = txtDescription.text ?? ""
+              
+              
+              if titleTxt == ""{
+                  let dialogMessage = UIAlertController(title: "Attention", message: "Title is required", preferredStyle: .alert)
+
+                  let ok = UIAlertAction(title:"OK",style: .default, handler: {(action)-> Void in
+                      print("OK")
+                  })
+                  
+                  let cancel = UIAlertAction(title:"Cancel", style: .cancel){
+                      (action) -> Void in
+                      print("Canceled")
+                  }
+                  
+                  dialogMessage.addAction(ok)
+                  dialogMessage.addAction(cancel)
+                  
+                  self.present(dialogMessage,animated: true, completion: nil)
+              }
+              else if subtitleTxt == ""{
+                  let dialogMessage = UIAlertController(title: "Attention", message: "Subtitle must be filled", preferredStyle: .alert)
+
+                  let ok = UIAlertAction(title:"OK",style: .default, handler: {(action)-> Void in
+                      print("OK")
+                  })
+                  
+                  let cancel = UIAlertAction(title:"Cancel", style: .cancel){
+                      (action) -> Void in
+                      print("Canceled")
+                  }
+                  
+                  dialogMessage.addAction(ok)
+                  dialogMessage.addAction(cancel)
+                  
+                  self.present(dialogMessage,animated: true, completion: nil)
+              }else{
+                  if let savedData = userDefaults.value(forKey: "data") as? Data {
+                      let loadedData = try? PropertyListDecoder().decode(Array<task>.self, from: savedData)
+                      dataList = loadedData!
+                      
+                  }
+
+                  dataList.append(task(title: titleTxt, subtitle: subtitleTxt, task: taskTxt))
+                  print(dataList)
+                  let encoder = PropertyListEncoder()
+                  
+                  if let encoded = try? encoder.encode(dataList) {
+                      userDefaults.set(encoded, forKey: "data")
+                     
+                  }
+                  
+                  let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController")
+                 self.navigationController?.pushViewController(vc, animated: true)
+                  
+              }
+          }
     
-   
-    override func didReceiveMemoryWarning() {
-          super.didReceiveMemoryWarning()
-          // Dispose of any resources that can be recreated.
-      }
+    
 }
 
 

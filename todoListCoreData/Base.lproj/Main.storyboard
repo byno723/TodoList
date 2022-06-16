@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="todoListCoreData" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="todoListCoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -63,6 +63,7 @@
                                         <connections>
                                             <outlet property="lblSubtitle" destination="wPN-ve-AcW" id="t0H-hn-wwO"/>
                                             <outlet property="lblTitle" destination="aD6-Q9-gkw" id="MhZ-KP-gfl"/>
+                                            <segue destination="1Ly-rd-5bU" kind="show" identifier="ViewController" id="xBp-nz-bGY"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -128,6 +129,7 @@
                         <viewLayoutGuide key="safeArea" id="Lqu-GA-EC8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="imY-hX-zMV"/>
                     <connections>
                         <outlet property="txtDescription" destination="xA4-CV-Uct" id="4Mx-il-Q66"/>
                         <outlet property="txtSubtitle" destination="ABO-0i-6dY" id="Yi6-9f-TLZ"/>
